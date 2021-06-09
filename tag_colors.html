@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Tags color</title>
+</head>
+<body>
+
+<textarea id='txt' onkeyup="to_color()"></textarea>
+<p id="results">
+<p id="debug">
+</body>
+<script type="text/javascript">
+
+	String.prototype.insert = function(index, string) {
+		  if (index > 0) {
+		    return this.substring(0, index) + string + this.substr(index);
+		  }
+
+		  return string + this;
+	};
+
+	function to_color() {
+		var regex_value = /(\w+@\w+\.\w+)/gi
+		var marker_start = "<font color='red'>";
+		var marker_end = "</font>";
+
+		var results = document.getElementById('results');
+		var debug = document.getElementById('debug');
+		var inputted_txt = document.getElementById('txt');
+		inputted_string = inputted_txt.value;
+
+		results.innerHTML = inputted_string;
+		emails = inputted_string.match(regex_value);
+		resulted_str = inputted_string;
+		var collision = 0;
+		for(var i = 0; i < emails.length; i++) {
+			var n = inputted_string.search(emails[i]);
+			resulted_str = resulted_str.insert(n + collision, marker_start);
+			var step = n+marker_start.length+emails[i].length;
+			resulted_str = resulted_str.insert(step + collision, marker_end);
+			collision += marker_start.length + marker_end.length;
+		}
+		results.innerHTML = resulted_str;
+	} 
+</script>
+</html>
